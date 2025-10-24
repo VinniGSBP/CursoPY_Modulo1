@@ -23,13 +23,18 @@ contrário disso:
 
 O primeiro dígito do CPF é 7
 """
-import random
+import re
 
-nove_digitos = ''
-for i in range(9):
-    nove_digitos += str(random.randint(0,9))
-    
+#cpf_enviado = '746.824.890-70'.replace('.','').replace('-','')
+entrada = input('CPF [746.824.890-70]: ')
+cpf_enviado = re.sub(r'[^0-9]', '', entrada)
 
+entrada_e_sequencial = entrada == entrada[0] * len(entrada)
+
+
+
+
+nove_digitos = cpf_enviado[:9]
 contador_regressivo_1 = 10
 
 resultado_digito1 = 0
@@ -41,9 +46,8 @@ digito_1 = digito_1 if digito_1 <= 9 else 0
 
 
 # Calculo do segundo dígito do CPF
-dez_digitos = nove_digitos + str(digito_1)
+dez_digitos = cpf_enviado[:9] + str(digito_1)
 contador_regressivo_2 = 11
-
 resultado_digito_2 = 0
 for digito_2 in dez_digitos:
     resultado_digito_2 += int(digito_2) * contador_regressivo_2
@@ -53,4 +57,7 @@ digito_2 = digito_2 if digito_2 <= 9 else 0
 
 cpf_gerado = f'{nove_digitos}{digito_1}{digito_2}'
 
-print(cpf_gerado)
+if cpf_enviado == cpf_gerado:
+    print(f'CPF Válido: {cpf_enviado}')
+else:
+    print('CPF Inválido')
